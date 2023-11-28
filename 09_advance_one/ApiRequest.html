@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Card | Study XMLHttpRequest</title>
+    <style>
+        body{
+            background-color: rgb(17, 113, 202);
+            color: #474747;
+        }
+        .cardWraper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .myCard{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            width: 300px;
+            background-color: rgb(255, 239, 214);
+            text-align: center;
+            padding: 1em 0.4em;
+        }
+
+        .imgWraper{
+            height: 160px;
+            width: 160px;
+            border-radius: 8%;
+            overflow: hidden;
+            border: 6px solid #ffffff;
+            box-shadow: 0px 4px 5px #0000002f;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="cardWraper">
+        <div class="myCard">
+            <div class="imgWraper">
+                <img id="userAvater" src="" alt="" style="height: 160px;">
+            </div>
+            <h2 id="userName"></h2>
+            <h3 id="userBio">Front-End Web Developer | WordPress, Webflow & Shopify Expert</h3>
+
+        </div>
+    </div>
+
+    <!-- 0	UNSENT	Client has been created. open() not called yet.
+    1	OPENED	open() has been called.
+    2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+    3	LOADING	Downloading; responseText holds partial data.
+    4	DONE	The operation is complete. -->
+</body>
+<script>
+    const reqestUrl = "https://api.github.com/users/adilamin-dev"
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', reqestUrl)
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        if(xhr.readyState === 4){
+            const data = JSON.parse(this.responseText)
+            console.log("Followers: ", data);
+            console.log("Followers: ", data.followers);
+            let myAvaterUrl = `${data.avatar_url}`;
+            let myName = `${data.name}`
+            let myBio = `${data.bio}`
+
+            console.log(`${data.avatar_url}`)
+
+            githubUserCard(myAvaterUrl, myName, myBio)
+        }
+    }
+    xhr.send()
+
+    let githubUserCard = function(pUrl, pName, pBio){
+        document.querySelector("#userAvater").src = pUrl
+        document.querySelector("#userName").innerHTML = pName
+        document.querySelector("#userAvater").alt = pName
+        document.querySelector("#userBio").innerHTML = pBio
+    }
+   
+
+</script>
+</html>
